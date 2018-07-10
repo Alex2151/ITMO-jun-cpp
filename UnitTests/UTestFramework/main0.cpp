@@ -3,20 +3,9 @@
 #include <map>
 #include <set>
 #include <assert.h>
-#include "myassert.h"
-
-//inline std::string location(const std::string& file, int line) {
-//    std::ostringstream oss;
-//    oss << file << ": " << line;
-//    return oss.str();
-//}
-
-//#define MY_LOCATION location(__FILE__, __LINE__)
-
 
 using namespace std;
 using synonyms_dict = map<string, set<string>>;
-
 
 void addSynonyms(synonyms_dict &synonyms, const string &f_word,
                  const string &s_word)
@@ -29,16 +18,13 @@ void addSynonyms(synonyms_dict &synonyms, const string &f_word,
 void testAddSynonyms()
 {
     {
-//        cout << MY_LOCATION;
-
         synonyms_dict dict;
         addSynonyms(dict, "a", "b");
         const synonyms_dict expected = {
             {"a", {"b"}},
-            {"b", {"b"}},
+            {"b", {"a"}},
         };
-        AssertEqual(dict, expected, "add empty case");
-//        assert(dict == expected);
+        assert(dict == expected);
     }
 
     {
@@ -55,8 +41,7 @@ void testAddSynonyms()
             {"b", {"a", "c"}},
             {"c", {"b", "a"}},
         };
-        AssertEqual(dict, expected);
-//        assert(dict == expected);
+        assert(dict == expected);
     }
 }
 
@@ -71,8 +56,7 @@ void testCount()
 {
     {
         synonyms_dict dict;
-        AssertEqual(getSynonymsCount(dict, "a"),  0u, "empty case");
-//        assert(getSynonymsCount(dict, "a") == 0);
+        assert(getSynonymsCount(dict, "a") == 0);
     }
 
     {
@@ -82,16 +66,10 @@ void testCount()
             {"c", {"b"}},
         };
 
-        AssertEqual(getSynonymsCount(dict, "a"), 1);
-        AssertEqual(getSynonymsCount(dict, "b"), 2);
-        AssertEqual(getSynonymsCount(dict, "c"), 1);
-        AssertEqual(getSynonymsCount(dict, "d"), 0);
-
-
-//        assert(getSynonymsCount(dict, "a") == 1);
-//        assert(getSynonymsCount(dict, "b") == 2);
-//        assert(getSynonymsCount(dict, "c") == 1);
-//        assert(getSynonymsCount(dict, "d") == 0);
+        assert(getSynonymsCount(dict, "a") == 1);
+        assert(getSynonymsCount(dict, "b") == 2);
+        assert(getSynonymsCount(dict, "c") == 1);
+        assert(getSynonymsCount(dict, "d") == 0);
     }
 }
 
@@ -110,10 +88,8 @@ void testCheckSynonyms()
 {
     {
         synonyms_dict dict;
-        Assert(!checkSynonyms(dict, "a", "b"));
-        Assert(!checkSynonyms(dict, "b", "a"));
-//        assert(!checkSynonyms(dict, "a", "b"));
-//        assert(!checkSynonyms(dict, "b", "a"));
+        assert(!checkSynonyms(dict, "a", "b"));
+        assert(!checkSynonyms(dict, "b", "a"));
     }
 
     {
@@ -123,24 +99,18 @@ void testCheckSynonyms()
             {"c", {"b"}},
         };
 
-        Assert(!checkSynonyms(dict, "a", "b"));
-        Assert(!checkSynonyms(dict, "b", "c"));
-        Assert(!checkSynonyms(dict, "c", "a"));
-
-
-//        assert(checkSynonyms(dict, "a", "b"));
-//        assert(checkSynonyms(dict, "b", "c"));
-//        assert(!checkSynonyms(dict, "c", "a"));
+        assert(checkSynonyms(dict, "a", "b"));
+        assert(checkSynonyms(dict, "b", "c"));
+        assert(!checkSynonyms(dict, "c", "a"));
 
     }
 }
 
 void testAll()
 {
-    TestRunner test_run;
-    test_run.runTest(testCount, "Count");
-    test_run.runTest(testCheckSynonyms, "CheckSynonyms");
-    test_run.runTest(testAddSynonyms, "AddSynonyms");
+    testCount();
+    testCheckSynonyms();
+    testAddSynonyms();
 }
 
 int main()

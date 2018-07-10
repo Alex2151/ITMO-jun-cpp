@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 
+
 template <typename T>
 std::ostream& operator << (std::ostream &os, const std::set<T>& s)
 {
@@ -44,7 +45,7 @@ std::ostream& operator << (std::ostream &os, const std::map<K, V>& m)
 }
 
 template <typename T, typename U>
-void AssertEqual(const T &t, const U &u, const std::string &hint)
+void AssertEqual(const T &t, const U &u, const std::string &hint = "")
 {
     if (t != u)
     {
@@ -55,7 +56,7 @@ void AssertEqual(const T &t, const U &u, const std::string &hint)
     }
 }
 
-void Assert(bool b, const std::string &hint)
+void Assert(bool b, const std::string &hint = "")
 {
     AssertEqual(b, true, hint);
 }
